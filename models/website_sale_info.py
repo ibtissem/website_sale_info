@@ -24,8 +24,13 @@ class WebsiteSaleInfo(models.Model):
     payment_id = fields.Many2one('payment.acquirer', string='Payment Method',
                                  domain=[('website_published', '=', True)])
     
+#===============================================================================
+# Ibtissem Added : one2many field to access the WebsiteSaleInfo's object through the website
+#===============================================================================
 class WebsiteInheritance(models.Model):
     _inherit = 'website'
     
     website_sale_info_ids = fields.One2many('website.sale.info', 'website_id', string='Cashbox Lines')
-
+#===============================================================================
+# End Ibtissem modification
+#===============================================================================

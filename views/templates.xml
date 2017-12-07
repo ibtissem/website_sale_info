@@ -6,72 +6,59 @@
 			<script type="text/javascript" src="/website_sale_info/static/src/js/sale_info.js" />
 		</xpath>
 	</template>
+	
+	<!-- Ibtissem Added : delivery popup template definition and Button that will despaly the template -->
+	<!-- we get the template value dynamiquely from the website_sale_info object -->
 
 	<template id="bloopark_payment_delivery" name="Delivery Costs"
 		inherit_id="website_sale_delivery.payment_delivery">
-		<xpath expr="//li[@t-foreach='deliveries']" position="replace">
-			<li t-foreach="deliveries" t-as="delivery">
-				<t t-if="delivery.available">
-					<label>
-						<input t-att-value="delivery.id" type="radio" name="delivery_type"
-							t-att-checked="order.carrier_id and order.carrier_id.id == delivery.id and 'checked' or False" />
-						<abbr t-att-title="delivery.website_description">
-							<span t-field="delivery.name" />
-						</abbr>
+		<xpath expr="//span[@t-field='delivery.price']" position="after">
+			<t t-foreach="website.website_sale_info_ids" t-as="website_sale_info_id">
+				<t
+					t-if='website_sale_info_id.type == "delivery" and website_sale_info_id.delivery_id.id == delivery.id'>
+					<span class="fa fa-search-plus blooparkdelivery" id="bloopark_desplay_template"></span>
+					<input t-att-value="website_sale_info_id.id" class='hidden' />
 
-						<span class="badge" t-field="delivery.price"
-							t-options='{
-                                            "widget": "monetary",
-                                            "from_currency": delivery.product_id.company_id.currency_id,
-                                            "display_currency": website_sale_order.currency_id
-                                        }' />
-						<t t-foreach="website.website_sale_info_ids" t-as="website_sale_info_id">
-							<t
-								t-if='website_sale_info_id.type == "delivery" and website_sale_info_id.delivery_id.id == delivery.id'>
-								<span class="fa fa-search-plus blooparkdelivery" id="bloopark_desplay_template"></span>
-								<input t-att-value="website_sale_info_id.id" class='hidden' />
+					<div class="modal fade bloopark_popup" t-att-id="website_sale_info_id.id"
+						tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog">
 
-								<div class="modal fade bloopark_popup" t-att-id="website_sale_info_id.id"
-									tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-									aria-hidden="true">
-									<div class="modal-dialog">
-
-										<!-- Modal content -->
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" />
-												<h4 class="modal-title">
-													<span t-field="website_sale_info_id.title"></span>
-												</h4>
-											</div>
-											<div>
-												<img alt="Delivery"
-													src="/website_sale_info/static/src/img/delivery.png" style="width: 500px;margin-top: 20px;margin-left: 50px;" />
-											</div>
-											<div class="modal-body">
-												<p>
-													<span t-field="website_sale_info_id.info"></span>
-												</p>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">Close</button>
-											</div>
-										</div>
-
-									</div>
+							<!-- Modal content -->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" />
+									<h4 class="modal-title">
+										<span t-field="website_sale_info_id.title"></span>
+									</h4>
 								</div>
-							</t>
-						</t>
-						<div t-field="delivery.website_description" class="text-muted" />
-					</label>
-				</t>
-			</li>
+								<div>
+									<img alt="Delivery" src="/website_sale_info/static/src/img/delivery.png"
+										style="width: 500px;margin-top: 20px;margin-left: 50px;" />
+								</div>
+								<div class="modal-body">
+									<p>
+										<span t-field="website_sale_info_id.info"></span>
+									</p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">Close</button>
+								</div>
+							</div>
 
+						</div>
+					</div>
+				</t>
+			</t>
 		</xpath>
 	</template>
-	<template id="bloopark_payment" name="Payment"
-		inherit_id="website_sale.payment">
+	
+	<!-- End Ibtissem modification -->
+	
+	<!-- Ibtissem Added : payment popup template definition and Button that will despaly the template -->
+	
+	<template id="bloopark_payment" name="Payment" inherit_id="website_sale.payment">
 		<xpath expr="//t[@t-foreach='acquirers or []']" position="replace">
 
 			<t t-foreach="acquirers or []" t-as="acquirer">
@@ -103,8 +90,8 @@
 												</h4>
 											</div>
 											<div>
-												<img alt="Payment"
-													src="/website_sale_info/static/src/img/payment.jpg" style="width: 500px;margin-top: 20px;margin-left: 50px;" />
+												<img alt="Payment" src="/website_sale_info/static/src/img/payment.jpg"
+													style="width: 500px;margin-top: 20px;margin-left: 50px;" />
 											</div>
 											<div class="modal-body">
 												<p>
@@ -126,4 +113,5 @@
 			</t>
 		</xpath>
 	</template>
+	<!-- End Ibtissem modification -->
 </odoo>

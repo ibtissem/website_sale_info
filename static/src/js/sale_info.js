@@ -17,6 +17,8 @@ odoo.define('website_sale_info.sale_info', function (require) {
 
     base.ready().done(function(){
         var si = new SaleInfo();
+//        Ibtissem Added : on click on the button next to the delivery method will show the template
+        
         $(".blooparkdelivery").click(function(event){
         	event.preventDefault();
             var input_val = $(this).next().val();
@@ -27,6 +29,7 @@ odoo.define('website_sale_info.sale_info', function (require) {
             var input_val = $(this).next().val();
             $("#"+ input_val).modal('show');
         });
+//		  End Ibtissem modification
     });
 
     return SaleInfo;
